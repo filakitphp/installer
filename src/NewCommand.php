@@ -201,7 +201,7 @@ class NewCommand extends Command
             $project = 'jeffersongoncalves/filakitv4';
         }
 
-        $createProjectCommand = $composer . " create-project $project \"$directory\" --remove-vcs --prefer-dist --no-scripts";
+        $createProjectCommand = $composer . " create-project $project \"$directory\" --remove-vcs --no-scripts";
 
         $commands = [
             $createProjectCommand,
