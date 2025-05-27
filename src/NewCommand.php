@@ -72,7 +72,7 @@ class NewCommand extends Command
 
         $this->configurePrompts($input, $output);
 
-        $output->write(PHP_EOL . '  <fg=red> _                               _
+        $output->write(PHP_EOL . '  <fg=yellow> _                               _
   ______ _ _       _    _ _   
   |  ____(_) |     | |  (_) |  
   | |__   _| | __ _| | ___| |_ 
@@ -193,12 +193,14 @@ class NewCommand extends Command
         $phpBinary = $this->phpBinary();
 
         $project = 'jeffersongoncalves/filakit';
+        $stability = 'stable';
 
         if($input->getOption('v4')) {
             $project = 'jeffersongoncalves/filakitv4';
+        $stability = 'alpha';
         }
 
-        $createProjectCommand = $composer . " create-project $project \"$directory\" --remove-vcs --no-scripts";
+        $createProjectCommand = $composer . " create-project $project \"$directory\" --stability=$stability --remove-vcs --no-scripts";
 
         $commands = [
             $createProjectCommand,
