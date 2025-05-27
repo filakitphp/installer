@@ -56,6 +56,7 @@ class NewCommand extends Command
             ->setDescription('Create a new FilaKit application')
             ->addArgument('name', InputArgument::REQUIRED)
             ->addOption('database', null, InputOption::VALUE_REQUIRED, 'The database driver your application will use')
+            ->addOption('v4', null, InputOption::VALUE_NONE, 'Install FilaKit v4')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Forces install even if the directory already exists');
     }
 
@@ -194,7 +195,13 @@ class NewCommand extends Command
         $composer = $this->findComposer();
         $phpBinary = $this->phpBinary();
 
-        $createProjectCommand = $composer . " create-project jeffersongoncalves/filakit \"$directory\" --remove-vcs --prefer-dist --no-scripts";
+        $project = 'jeffersongoncalves/filakit';
+
+        if($input->getOption('v4')) {
+            $project = 'jeffersongoncalves/filakitv4';
+        }
+
+        $createProjectCommand = $composer . " create-project $project \"$directory\" --remove-vcs --prefer-dist --no-scripts";
 
         $commands = [
             $createProjectCommand,
