@@ -175,8 +175,6 @@ class NewCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->validateDatabaseOption($input);
-
         $name = rtrim($input->getArgument('name'), '/\\');
 
         $directory = $this->getInstallationDirectory($name);
@@ -230,18 +228,6 @@ class NewCommand extends Command
         }
 
         return $process->getExitCode();
-    }
-
-    /**
-     * Validate the database driver input.
-     *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     */
-    protected function validateDatabaseOption(InputInterface $input): void
-    {
-        if ($input->getOption('database') && !in_array($input->getOption('database'), $drivers = ['mysql', 'mariadb', 'pgsql', 'sqlite', 'sqlsrv'])) {
-            throw new \InvalidArgumentException("Invalid database driver [{$input->getOption('database')}]. Valid options are: " . implode(', ', $drivers) . '.');
-        }
     }
 
     /**
