@@ -55,7 +55,6 @@ class NewCommand extends Command
             ->setName('new')
             ->setDescription('Create a new FilaKit application')
             ->addArgument('name', InputArgument::REQUIRED)
-            ->addOption('database', null, InputOption::VALUE_REQUIRED, 'The database driver your application will use')
             ->addOption('v4', null, InputOption::VALUE_NONE, 'Install FilaKit v4')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Forces install even if the directory already exists');
     }
