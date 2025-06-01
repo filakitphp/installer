@@ -15,6 +15,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Extract the tag version
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            GITHUB_REF=${{ github.event.inputs.tag }}
+          fi
+          echo "tag=${GITHUB_REF##*v}" >> "$GITHUB_OUTPUT"
+          
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -33,7 +41,7 @@ jobs:
         run: composer install --prefer-dist --optimize-autoloader --no-interaction --no-progress --no-suggest --no-scripts --ansi -v --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-posix --ignore-platform-req=ext-sockets
 
       - name: Execute build
-        run: php filakit app:build filakit
+        run: php filakit app:build filakit --build-version=${{ steps.tag.outputs.tag }}
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
