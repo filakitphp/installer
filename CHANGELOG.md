@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.8.0 - 2025-06-01
+
+**Full Changelog**: https://github.com/filakitphp/installer/compare/v0.7.0...v0.8.0
+
 ## v0.7.0 - 2025-06-01
 
 **Full Changelog**: https://github.com/filakitphp/installer/compare/v0.6.0...v0.7.0
