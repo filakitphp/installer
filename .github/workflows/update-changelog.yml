@@ -74,4 +74,4 @@ jobs:
           # Push updated CHANGELOG to release target branch.
           branch: ${{ github.event.release.target_commitish }}
           commit_message: Update CHANGELOG
-          file_pattern: [CHANGELOG.md, version.txt]
+          file_pattern: "CHANGELOG.md version.txt"
