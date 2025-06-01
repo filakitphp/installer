@@ -2,9 +2,11 @@ name: builds
 
 on:
   push:
-    branches: [main]
+    paths:
+      - '**.php'
   pull_request:
-    branches: [main]
+    paths:
+      - '**.php'
 
 permissions: write-all
 
