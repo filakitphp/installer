@@ -19,11 +19,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Get latest tag pushed
-        id: tag
-        uses: 32teeth/action-github-tag@v1
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
         with:
-          numbers_only: true
+          fallback: unreleased
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
