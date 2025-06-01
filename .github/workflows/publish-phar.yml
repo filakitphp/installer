@@ -47,8 +47,7 @@ jobs:
           path: builds/filakit.phar
 
       - name: Upload the PHAR to release
-        #        run: gh release upload ${{ steps.tag.outputs.tag }} builds/filakit.phar
-        run: gh release upload $(git tag --sort=-committerdate | head -n 1) builds/filakit.phar
+        run: gh release upload ${{ steps.tag.outputs.tag }} builds/filakit.phar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -59,6 +58,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: master
-          #          commit_message: Bump to ${{ github.event.release.name }}
-          commit_message: Bump to ${{ steps.tag.outputs.tag }}
+          commit_message: Bump to ${{ github.event.release.name }}
           file_pattern: builds/filakit CHANGELOG.md
