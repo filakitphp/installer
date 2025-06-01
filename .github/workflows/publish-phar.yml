@@ -47,7 +47,7 @@ jobs:
           path: builds/filakit.phar
 
       - name: Upload the PHAR to release
-        run: gh release upload ${{ steps.tag.outputs.tag }} builds/filakit.phar
+        run: gh release upload ${{ github.event.release.tag_name }} builds/filakit.phar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
