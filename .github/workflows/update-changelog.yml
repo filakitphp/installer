@@ -62,6 +62,12 @@ jobs:
         # https://github.com/org/repo/compare/v1.0.0...HEAD
         run: "echo ${{ steps.changelog-updater.outputs.unreleased_compare_url }}"
 
+      - name: Write Version to File
+        uses: brettdorrans/write-version-to-file@v1.1.0
+        with:
+          filename: 'version.txt'
+          placeholder: '${VERSION}'
+
       - name: Commit updated CHANGELOG
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
