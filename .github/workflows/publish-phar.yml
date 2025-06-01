@@ -4,6 +4,9 @@ on:
   release:
     types: [ created ]
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-22.04
