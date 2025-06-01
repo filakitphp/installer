@@ -38,7 +38,7 @@ jobs:
         run: composer update --prefer-dist --optimize-autoloader --no-interaction --no-progress --no-suggest --no-scripts --ansi -v --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-posix --ignore-platform-req=ext-sockets
 
       - name: Create the PHAR file.
-        run: ./filakit app:build filakit.phar --build-version=${{ steps.tag.outputs.tag }} -v
+        run: php filakit app:build filakit.phar --build-version=${{ steps.tag.outputs.tag }} -v
 
       - name: Upload the PHAR artifact
         uses: actions/upload-artifact@v4
