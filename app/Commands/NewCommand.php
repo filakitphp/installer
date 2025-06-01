@@ -169,7 +169,7 @@ class NewCommand extends Command
 
         $directory = $this->getInstallationDirectory($name);
 
-        $this->composer = new Composer(new Filesystem, $directory);
+        $this->composer = new Composer(new Filesystem(), $directory);
 
         if (! $input->getOption('force')) {
             $this->verifyApplicationDoesntExist($directory);
@@ -236,7 +236,7 @@ class NewCommand extends Command
     {
         $phpBinary = function_exists('Illuminate\Support\php_binary')
             ? \Illuminate\Support\php_binary()
-            : (new PhpExecutableFinder)->find(false);
+            : (new PhpExecutableFinder())->find(false);
 
         return $phpBinary !== false
             ? ProcessUtils::escapeArgument($phpBinary)
