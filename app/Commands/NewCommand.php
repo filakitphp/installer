@@ -1,13 +1,17 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Filakit\Commands;
 
+use Filakit\Concerns\InteractsWithHerdOrValet;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Composer;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
+
+use function Laravel\Prompts\text;
+
 use LaravelZero\Framework\Commands\Command;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,11 +20,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
-use function Laravel\Prompts\text;
 
 class NewCommand extends Command
 {
-    use Concerns\InteractsWithHerdOrValet;
+    use InteractsWithHerdOrValet;
 
     /**
      * The Composer instance.
@@ -64,6 +67,7 @@ class NewCommand extends Command
 
     /**
      * Interact with the user before validating the input.
+     *
      * @noinspection PhpInconsistentReturnPointsInspection
      */
     protected function interact(InputInterface $input, OutputInterface $output): void
@@ -82,7 +86,7 @@ class NewCommand extends Command
 
         $this->ensureExtensionsAreAvailable();
 
-        if (!$input->getArgument('name')) {
+        if (! $input->getArgument('name')) {
             $input->setArgument('name', text(
                 label: 'What is the name of your project?',
                 placeholder: 'E.g. example-app',
@@ -119,7 +123,7 @@ class NewCommand extends Command
     private function ensureExtensionsAreAvailable(): void
     {
         $availableExtensions = get_loaded_extensions();
-        $missingExtensions = collect([
+        $missingExtensions   = collect([
             'ctype',
             'filter',
             'hash',
@@ -127,10 +131,12 @@ class NewCommand extends Command
             'openssl',
             'session',
             'tokenizer',
-        ])->reject(fn($extension): bool => in_array($extension, $availableExtensions));
+        ])->reject(fn ($extension): bool => in_array($extension, $availableExtensions));
+
         if ($missingExtensions->isEmpty()) {
             return;
         }
+
         throw new RuntimeException(
             sprintf('The following PHP extensions are required but are not installed: %s', $missingExtensions->join(', ', ', and '))
         );
@@ -163,9 +169,9 @@ class NewCommand extends Command
 
         $directory = $this->getInstallationDirectory($name);
 
-        $this->composer = new Composer(new Filesystem(), $directory);
+        $this->composer = new Composer(new Filesystem, $directory);
 
-        if (!$input->getOption('force')) {
+        if (! $input->getOption('force')) {
             $this->verifyApplicationDoesntExist($directory);
         }
 
@@ -173,14 +179,14 @@ class NewCommand extends Command
             throw new RuntimeException('Cannot use --force option when using current directory for installation!');
         }
 
-        $composer = $this->findComposer();
+        $composer  = $this->findComposer();
         $phpBinary = $this->phpBinary();
 
-        $project = 'jeffersongoncalves/filakit';
+        $project   = 'jeffersongoncalves/filakit';
         $stability = 'stable';
 
         if ($input->getOption('v4')) {
-            $project = 'jeffersongoncalves/filakitv4';
+            $project   = 'jeffersongoncalves/filakitv4';
             $stability = 'dev';
         }
 
@@ -230,7 +236,7 @@ class NewCommand extends Command
     {
         $phpBinary = function_exists('Illuminate\Support\php_binary')
             ? \Illuminate\Support\php_binary()
-            : (new PhpExecutableFinder())->find(false);
+            : (new PhpExecutableFinder)->find(false);
 
         return $phpBinary !== false
             ? ProcessUtils::escapeArgument($phpBinary)
@@ -242,7 +248,7 @@ class NewCommand extends Command
      */
     protected function runCommands(array $commands, InputInterface $input, OutputInterface $output, ?string $workingPath = null, array $env = []): Process
     {
-        if (!$output->isDecorated()) {
+        if (! $output->isDecorated()) {
             $commands = array_map(function (string $value): string {
                 if (Str::startsWith($value, ['chmod', 'git', $this->phpBinary() . ' ./vendor/bin/pest'])) {
                     return $value;
@@ -282,7 +288,7 @@ class NewCommand extends Command
     /**
      * Replace the given string in the given file.
      */
-    protected function replaceInFile(string|array $search, string|array $replace, string $file): void
+    protected function replaceInFile(string | array $search, string | array $replace, string $file): void
     {
         file_put_contents(
             $file,
@@ -295,7 +301,7 @@ class NewCommand extends Command
      */
     protected function generateAppUrl(string $name, string $directory): string
     {
-        if (!$this->isParkedOnHerdOrValet($directory)) {
+        if (! $this->isParkedOnHerdOrValet($directory)) {
             return 'http://localhost:8000';
         }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Filakit\Commands\Concerns;
+namespace Filakit\Concerns;
 
 use Symfony\Component\Process\Exception\ProcessStartFailedException;
 use Symfony\Component\Process\Process;
