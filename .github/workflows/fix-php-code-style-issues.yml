@@ -5,6 +5,8 @@ on:
     paths:
       - '**.php'
 
+permissions: write-all
+
 jobs:
   php-code-styling:
     runs-on: ubuntu-latest
