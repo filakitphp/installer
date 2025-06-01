@@ -1,0 +1,11 @@
+parameters:
+    level: 6
+    paths:
+        - app
+        - tests
+    ignoreErrors:
+        -
+            message: '#^Undefined variable: \$this$#'
+            path: tests/Pest.php
+        -
+            identifier: method.notFound

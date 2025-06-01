@@ -1,0 +1,65 @@
+{
+    "name": "filakit/installer",
+    "description": "The Filakit cli.",
+    "keywords": ["laravel", "filakit", "console", "cli"],
+    "type": "project",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/filakit/installer/issues",
+        "source": "https://github.com/filakit/installer"
+    },
+    "require": {
+        "php": "^8.2.0"
+    },
+    "require-dev": {
+        "laravel-zero/framework": "^11.45",
+        "laravel/pint": "^1.18.3",
+        "mockery/mockery": "^1.6.12",
+        "pestphp/pest": "^3.7.1",
+        "phpstan/phpstan": "^2.1",
+        "rector/rector": "^2.0"
+    },
+    "scripts": {
+        "build": [
+            "php filakit app:build filakit"
+        ],
+        "lint": "./vendor/bin/pint",
+        "refactor": "./vendor/bin/rector process",
+        "test:lint": "./vendor/bin/pint --test",
+        "test:unit": "./vendor/bin/pest --parallel",
+        "test:unit:coverage": "./vendor/bin/pest --parallel --coverage",
+        "test:types": "./vendor/bin/phpstan analyse --memory-limit=256M",
+        "test:refactor": "./vendor/bin/rector process --dry-run",
+        "phpstan": "./vendor/bin/phpstan analyse --memory-limit=256M",
+        "phpstan-baseline": "./vendor/bin/phpstan analyse --generate-baseline --memory-limit=256M",
+        "test": [
+            "@test:unit",
+            "@test:lint",
+            "@test:types",
+            "@test:refactor"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Filakit\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "bin": [
+        "builds/filakit"
+    ]
+}
