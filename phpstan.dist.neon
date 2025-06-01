@@ -11,7 +11,3 @@ parameters:
             identifier: method.notFound
         -
             identifier: missingType.iterableValue
-        -
-            identifier: deadCode.unreachable
-        -
-            identifier: argument.templateType
