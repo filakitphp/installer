@@ -4,6 +4,8 @@ on:
     branches:
       - main
 
+permissions: write-all
+
 jobs:
   write-version:
     runs-on: ubuntu-latest
