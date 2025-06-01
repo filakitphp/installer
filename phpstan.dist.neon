@@ -9,3 +9,9 @@ parameters:
             path: tests/Pest.php
         -
             identifier: method.notFound
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: deadCode.unreachable
+        -
+            identifier: argument.templateType
