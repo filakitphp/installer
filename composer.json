@@ -1,12 +1,12 @@
 {
-    "name": "filakit/installer",
+    "name": "filakitphp/installer",
     "description": "The Filakit cli.",
     "keywords": ["laravel", "filakit", "console", "cli"],
     "type": "project",
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/filakit/installer/issues",
-        "source": "https://github.com/filakit/installer"
+        "issues": "https://github.com/filakitphp/installer/issues",
+        "source": "https://github.com/filakitphp/installer"
     },
     "require": {
         "php": "^8.2.0"

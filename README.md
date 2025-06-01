@@ -21,7 +21,7 @@ Filakit Installer is a command-line tool to quickly create new Filakit applicati
 Install Filakit Installer globally using Composer:
 
 ```bash
-composer global require filakit/installer
+composer global require filakitphp/installer
 ```
 
 Make sure Composer's global bin directory is in your PATH.
