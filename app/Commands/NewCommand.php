@@ -76,7 +76,7 @@ class NewCommand extends Command
 
         $this->configurePrompts($input);
 
-        $output->write(PHP_EOL . '  <fg=red> _                               _
+        $output->write(PHP_EOL . '  <fg=yellow> _                               _
   ______ _ _       _    _ _
   |  ____(_) |     | |  (_) |
   | |__   _| | __ _| | ___| |_
