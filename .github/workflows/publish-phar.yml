@@ -23,7 +23,7 @@ jobs:
           echo "tag=${GITHUB_REF##*v}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -44,7 +44,7 @@ jobs:
         run: php filakit app:build filakit.phar --build-version=${{ steps.tag.outputs.tag }} -v
 
       - name: Upload the PHAR artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: filakit.phar
           path: builds/filakit.phar
