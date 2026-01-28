@@ -38,6 +38,6 @@ jobs:
         run: php filakit app:build filakit --build-version=${{ steps.previoustag.outputs.tag }}
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Generate build
