@@ -3,8 +3,6 @@ name: builds
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 permissions: write-all
 
@@ -14,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
 
@@ -40,6 +38,6 @@ jobs:
         run: php filakit app:build filakit --build-version=${{ steps.previoustag.outputs.tag }}
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Generate build
