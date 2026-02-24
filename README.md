@@ -1,3 +1,9 @@
+<div class="filament-hidden">
+
+![Filakit Installer](https://raw.githubusercontent.com/filakitphp/installer/main/art/filakitphp-installer.png)
+
+</div>
+
 # Filakit Installer
 
 Filakit Installer is a command-line tool to quickly create new Filakit applications. It provides an interactive and user-friendly experience for bootstrapping your Filakit projects, supporting multiple versions and options for advanced users.
