@@ -3,3 +3,6 @@
 /.vscode
 /.vagrant
 .phpunit.result.cache
+.phpunit.cache
+.env
+/.claude/settings.local.json
