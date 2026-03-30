@@ -14,20 +14,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
-      - name: 'Get Previous tag'
-        id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v2"
-        with:
-          fallback: unreleased
+      - name: Get latest tag
+        id: version
+        run: echo "tag=$(git describe --tags --abbrev=0 2>/dev/null || echo unreleased)" >> "$GITHUB_OUTPUT"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.4
           extensions: dom, curl, libxml, mbstring, zip
-          ini-values: error_reporting=E_ALL
+          ini-values: error_reporting=E_ALL, phar.readonly=Off
           tools: composer:v2
           coverage: none
 
@@ -35,7 +33,7 @@ jobs:
         run: composer install --prefer-dist --optimize-autoloader --no-interaction --no-progress --no-suggest --no-scripts --ansi -v --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-posix --ignore-platform-req=ext-sockets
 
       - name: Execute build
-        run: php filakit app:build filakit --build-version=${{ steps.previoustag.outputs.tag }}
+        run: php filakit app:build filakit --build-version=${{ steps.version.outputs.tag }}
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v7

@@ -40,33 +40,8 @@ jobs:
           latest-version: ${{ github.event.release.tag_name }}
           compare-url-target-revision: ${{ github.event.release.target_commitish }}
 
-          # Optional
-          # If your project keeps separate branches for major releases, and you want to point the compare URL
-          # in the "Unreleased"-heading to the corresponding major release branch (eg. `2.x`), then enable the option
-          # below.
-          # `compare-url-target-revision` will change how the compare URL is composed and will replace
-          # `v2.0.1...HEAD` with `v2.0.1...2.x`.
-          # WARNING: When you select `main` when creating a new release, the value `refs/heads/main`
-          # is passed to the Action which will generate an invalid compare URL.
-          # compare-url-target-revision: ${{ github.event.release.target_commitish }}
-
-      - name: "release_compare_url"
-        # https://github.com/org/repo/compare/v1.0.0...v1.1.0
-        run: "echo ${{ steps.changelog-updater.outputs.release_compare_url }}"
-
-      - name: "release_url_fragment"
-        # #v100---2021-02-01
-        run: "echo ${{ steps.changelog-updater.outputs.release_url_fragment }}"
-
-      - name: "unreleased_compare_url"
-        # https://github.com/org/repo/compare/v1.0.0...HEAD
-        run: "echo ${{ steps.changelog-updater.outputs.unreleased_compare_url }}"
-
       - name: Write Version to File
-        uses: brettdorrans/write-version-to-file@v1.1.0
-        with:
-          filename: 'version.txt'
-          placeholder: '${VERSION}'
+        run: echo "${{ github.event.release.tag_name }}" > version.txt
 
       - name: Commit updated CHANGELOG
         uses: stefanzweifel/git-auto-commit-action@v7
