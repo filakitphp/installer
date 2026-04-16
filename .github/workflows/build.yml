@@ -3,22 +3,41 @@ name: builds
 on:
   push:
     branches: [main]
+  workflow_run:
+    workflows: ["Update Changelog"]
+    types: [completed]
 
 permissions: write-all
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          # workflow_run fires from release events where head_branch is the
+          # tag name. We always want the branch head instead so the rebuilt
+          # PHAR lands on main, not on the tag ref.
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.ref }}
 
-      - name: Get latest tag
+      # On workflow_run the release tag may share a commit with an older tag,
+      # so `git describe` cannot be trusted to pick the right one. Use the
+      # triggering workflow's head_branch (which equals the tag name for
+      # release events) and fall back to `git describe` for regular pushes.
+      - name: Resolve build tag
         id: version
-        run: echo "tag=$(git describe --tags --abbrev=0 2>/dev/null || echo unreleased)" >> "$GITHUB_OUTPUT"
+        env:
+          TRIGGER_TAG: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_run" ] && [ -n "$TRIGGER_TAG" ] && [ "$TRIGGER_TAG" != "main" ]; then
+            echo "tag=$TRIGGER_TAG" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=$(git describe --tags --abbrev=0 2>/dev/null || echo unreleased)" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -36,6 +55,23 @@ jobs:
         run: php filakit app:build filakit --build-version=${{ steps.version.outputs.tag }}
 
       - name: Commit changes
+        id: commit
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Generate build
+          branch: ${{ github.event_name == 'workflow_run' && 'main' || github.ref_name }}
+
+      # After a release-driven rebuild, the tag still points at the pre-rebuild
+      # commit, which makes `composer require` pull a PHAR with the previous
+      # version embedded. Re-point the tag at the freshly built commit so
+      # Packagist (and direct git installs) see the correct PHAR.
+      - name: Move release tag to rebuilt commit
+        if: ${{ github.event_name == 'workflow_run' && steps.commit.outputs.changes_detected == 'true' }}
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          if [ "$TAG" = "unreleased" ]; then
+            echo "No tag to move."
+            exit 0
+          fi
+          git tag -f "$TAG"
+          git push origin "$TAG" --force
