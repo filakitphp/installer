@@ -9,6 +9,10 @@ on:
 
 permissions: write-all
 
+concurrency:
+  group: build-phar-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
