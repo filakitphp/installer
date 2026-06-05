@@ -21,7 +21,12 @@ jobs:
 
       - name: Get release version
         id: tag
-        run: echo "tag=$(git describe --tags --abbrev=0 2>/dev/null || echo unreleased)" >> "$GITHUB_OUTPUT"
+        run: |
+          TAG="$(tr -d ' \t\r\n' < version.txt 2>/dev/null || true)"
+          if [ -z "$TAG" ]; then
+            TAG="${{ github.event.release.tag_name }}"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
