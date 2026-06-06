@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.17.1 - 2026-06-06
+
+Adopt version.txt release flow (version.txt as version source, no tag-move; concurrency on builds).
+
 ## v0.23.0 - 2025-06-03
 
 **Full Changelog**: https://github.com/filakitphp/installer/compare/v0.22.0...v0.23.0
