@@ -4,6 +4,7 @@
     "keywords": ["laravel", "filakit", "console", "cli"],
     "type": "project",
     "license": "MIT",
+    "abandoned": "jeffersongoncalves/filakit-cli",
     "support": {
         "issues": "https://github.com/filakitphp/installer/issues",
         "source": "https://github.com/filakitphp/installer"
