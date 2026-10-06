@@ -6,6 +6,16 @@
 
 # Filakit Installer
 
+> [!WARNING]
+> **This package is abandoned and no longer maintained.** Use [**jeffersongoncalves/filakit-cli**](https://github.com/jeffersongoncalves/filakit-cli) instead — it supports every Filakit starter kit (v3, v4 and v5) and is actively developed.
+>
+> Both packages install a `filakit` binary, so remove this one before installing the replacement:
+>
+> ```bash
+> composer global remove filakitphp/installer
+> composer global require jeffersongoncalves/filakit-cli
+> ```
+
 Filakit Installer is a command-line tool to quickly create new Filakit applications. It provides an interactive and user-friendly experience for bootstrapping your Filakit projects, supporting multiple versions and options for advanced users.
 
 ## Features
